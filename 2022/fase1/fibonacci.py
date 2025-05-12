@@ -15,13 +15,13 @@ for linha in range(tamanho_matriz):
     else:
         camada_atual -= 1
 
-    petalas = [int(n) for n in input().split(" ")]
+    tamanhos = [int(tamanho) for tamanho in input().split(" ")]
     for camada_exterior in range(camada_atual):
-        camadas[camada_exterior].append(petalas.pop(0))
-        camadas[camada_exterior].append(petalas.pop(-1))
+        camadas[camada_exterior].append(tamanhos.pop(0))
+        camadas[camada_exterior].append(tamanhos.pop(-1))
     
-    for petala in petalas:
-        camadas[camada_atual].append(petala)
+    for tamanho in tamanhos:
+        camadas[camada_atual].append(tamanho)
 
 fibonacci = True
 for i in range(quantidade_termos):
@@ -31,10 +31,10 @@ for i in range(quantidade_termos):
     camada = camadas.pop(-1)
     termo = sequencia[i]
 
-    for petala in camada:
+    for tamanho_petala in camada:
         if not fibonacci:
             break
 
-        fibonacci = (petala == termo)
+        fibonacci = (tamanho_petala == termo)
 
 print("Fibonacci" if fibonacci else "Nao fibonacci")
