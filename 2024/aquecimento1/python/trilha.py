@@ -1,50 +1,41 @@
-quantidade_conexoes = int(input().split()[1])
-origem,destino = input().split()
+distritos, conexoes = [int(n) for n in input().split(" ")]
+inicio, final = input().split(" ")
 
-conexoes = {}
-for i in range(quantidade_conexoes):
-    caminho = input().split()
-    distancia = int(caminho.pop(2))
+mapa = {}
+for conexao in range(conexoes):
+    origem, destino, distancia = input().split(" ")
+    distancia = int(distancia)
 
-    for i in range(2):
-        cidade1 = caminho[i]
-        cidade2 = caminho[(i + 1) % 2]
+    try:
+        mapa[origem].append((destino, distancia))
+    except KeyError:
+        mapa[origem] = [(destino, distancia)]
 
-        try:
-            conexoes[cidade1].append((cidade2, distancia))
-        except KeyError:
-            conexoes[cidade1] = [(cidade2, distancia)]
+caminhos = [[0, inicio]]
+caminhos_possiveis = []
+while len(caminhos_possiveis) == 0:
+    for i in range(len(caminhos)):
+        caminho_atual = caminhos.pop(0)
+        if caminho_atual[-1] == destino:
+            caminhos_possiveis.append(caminho_atual)
+            continue
 
-trilhas = [[0, origem]]
-melhor_trilha = []
-while len(melhor_trilha) == 0:
-    for i in range(len(trilhas)):
-        trilha = trilhas.pop(0)
+        for vizinho,distancia in mapa[caminho_atual[-1]]:
+            if vizinho in caminho_atual:
+                continue
 
-        caminhos_completos = []
-        for conexao in conexoes[trilha[len(trilha) - 1]]:
-            salto = trilha.copy()
+            continuacao_caminho = caminho_atual.copy()
+            continuacao_caminho.append(vizinho)
+            continuacao_caminho[0] += distancia
+            caminhos.append(continuacao_caminho)
 
-            salto.append(conexao[0])
-            salto[0] += conexao[1]
+menor_distancia = min([caminho[0] for caminho in caminhos_possiveis])
+melhor_caminho = []
+for caminho in caminhos_possiveis:
+    if caminho[0] == menor_distancia:
+        melhor_caminho = caminho[1:]
 
-            if (conexao[0] == destino):
-                caminhos_completos.append(salto)
-            else:
-                trilhas.append(salto)
-
-        if len(caminhos_completos) > 0:
-            menor_distancia = caminhos_completos[0][0]
-            melhor_trilha = caminhos_completos[0]
-
-            for caminho in caminhos_completos:
-                if caminho[0] < menor_distancia:
-                    melhor_trilha = caminho
-            
-            break
-
-saida = f"Percurso: {origem}"
-for i in range(2, len(melhor_trilha)):
-    saida += f"--> {melhor_trilha[i]}"
-
-print(saida)
+print(f"Percurso: {melhor_caminho.pop(0)}", end="")
+for cidade in melhor_caminho:
+    print(f"--> {cidade}", end="")
+print()
