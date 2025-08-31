@@ -8,12 +8,11 @@ while sum(mala) > capacidade_mala:
     mala.remove(mais_leve)
     macos_fora.append(mais_leve)
 
-while True:
-    mais_leve = min(macos_fora)
-    if sum(mala) + mais_leve > capacidade_mala:
+while len(macos_fora) > 0:
+    menor_maco = macos_fora.pop(0)
+    if sum(mala) + menor_maco > capacidade_mala:
         break
-    
-    macos_fora.remove(mais_leve)
-    mala.append(mais_leve)
+
+    mala.append(menor_maco)
 
 print(sum(mala))
