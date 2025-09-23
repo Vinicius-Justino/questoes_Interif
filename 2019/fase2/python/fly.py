@@ -1,5 +1,3 @@
-OESTE, SUL, NORTE, LESTE = -1, -2, -3, -4
-
 direcoes = {
     -1: "oeste",
     -3: "norte",
