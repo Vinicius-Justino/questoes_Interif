@@ -13,7 +13,6 @@ while True:
         "bronze": bronze
     }
 
-
 colocacao = 1
 while len(placar) > 0:
     criterios_desempate = ["ouro", "prata", "bronze"]
